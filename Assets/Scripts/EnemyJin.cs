@@ -6,34 +6,48 @@ public class EnemyJin : Enemy
 {   
     private bool _isHunting = false;
     private bool _isInRadius = false;
+
+    private void Update() 
+    {
+        base.Update();
+        
+        CalculatePositionToAttack();
+    }
+
     private void FixedUpdate() 
     {
-        MoveCharacter();
+        if(_isHunting == true)
+        {
+            MoveCharacter();
+        }
     }
 
     private void MoveCharacter()
     {
-        if(distance <= 7.5f)
+        StartCoroutine(TimeToDash()); 
+    }
+
+    private void DashToPlayer()
+    {
+        enemyRb.AddForce(-direction * speed * Time.deltaTime);
+    }
+
+    private void CalculatePositionToAttack()
+    {
+        if(distance <= 7.5f && !_isInRadius) 
         {
-            if(distance < 5) 
-            {
-                _isInRadius = true;
-            }
-            else if(distance >= 5 && _isHunting && _isInRadius)
-            {
-                enemyRb.velocity = Vector2.Lerp(transform.position, Vector2.zero, Time.deltaTime);
-                _isHunting = false;
-                _isInRadius = false;
-            }
-            else
-            {
-                enemyRb.AddForce(-direction * speed);
-                _isHunting = true;
-            }
+            _isHunting = true;
+            _isInRadius = true;
         }
-        else
-        {
-            _isHunting = false;
-        }
+    }
+
+    private IEnumerator TimeToDash()
+    {
+        DashToPlayer();
+        yield return new WaitForSeconds(0.5f);
+        enemyRb.velocity = Vector3.zero;
+        _isHunting = false;
+        yield return new WaitForSeconds(1f);
+        _isHunting = true;
     }
 }
