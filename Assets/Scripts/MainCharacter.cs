@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MainCharacter : MonoBehaviour
 {
-
     [SerializeField] private int _healthBar = 4; //Максимальное количество жизни у ГГ
     [SerializeField] private int _currentHealthBar = 4; //Конкретное количество жизни у ГГ
     [SerializeField] private float _speed = 3f; //Скорость персонажа
@@ -12,14 +11,18 @@ public class MainCharacter : MonoBehaviour
     private bool isGrounded = true;
 
     private Rigidbody2D rb;
+    private Animator anim;
     private SpriteRenderer sprite;
 
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponentInChildren<Animator>();
         sprite = GetComponentInChildren<SpriteRenderer>();
     }
 
     private void Run() {
+        //if(isGrounded) State = States.run;
+
         Vector3 dir = transform.right * Input.GetAxis("Horizontal");
         transform.position = Vector3.MoveTowards(transform.position, transform.position + dir, _speed * Time.deltaTime);
         sprite.flipX = dir.x < 0.0f;
@@ -30,6 +33,9 @@ public class MainCharacter : MonoBehaviour
     }
 
     private void Update() {
+
+        if(isGrounded) State = States.idle;
+
         if(Input.GetButton("Horizontal"))
             Run();
         if(isGrounded && Input.GetButtonDown("Jump"))
@@ -41,11 +47,24 @@ public class MainCharacter : MonoBehaviour
     }
 
     private void DashandSlash() {
-
+        //empty
     }
 
     private void CheckGround() {
         Collider2D[] collider = Physics2D.OverlapCircleAll(transform.position, 0.3f);
         isGrounded = collider.Length > 1;
+
+        if(!isGrounded) State = States.jump;
+    }
+
+    private States State {
+        get {return (States)anim.GetInteger("myState");}
+        set {anim.SetInteger("myState", (int)value);}
+    }
+
+    private enum States {
+        idle_normal,
+        idle,
+        jump
     }
 }

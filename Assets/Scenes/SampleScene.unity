@@ -385,8 +385,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _healthBar: 4
   _currentHealthBar: 4
-  _speed: 3
-  _jumpForce: 5
+  _speed: 5
+  _jumpForce: 15
 --- !u!50 &722363235
 Rigidbody2D:
   serializedVersion: 4
@@ -402,7 +402,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 4
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -604,7 +604,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.5847473, y: -173.42899}
+  m_Offset: {x: 0, y: -165}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -615,7 +615,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 883.992, y: 49.16014}
+  m_Size: {x: 883.992, y: 32.440308}
   m_EdgeRadius: 0
 --- !u!1 &1751548233
 GameObject:
