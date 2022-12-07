@@ -9,10 +9,12 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected int speed;
     [SerializeField] protected float distance;
     [SerializeField] protected Vector2 direction;
+    protected SpriteRenderer _spriteRenderer;
     protected int currentHealth; //Текущее здоровье врага
     protected GameObject player;
     protected Transform playerTransform;
     protected Rigidbody2D enemyRb;
+    protected Animator _enemyAnim;
 
     protected void Awake()
     {
@@ -24,6 +26,8 @@ public abstract class Enemy : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         playerTransform = player.GetComponent<Transform>();
         enemyRb = this.gameObject.GetComponent<Rigidbody2D>();
+        _spriteRenderer = this.gameObject.GetComponentInChildren<SpriteRenderer>();
+        _enemyAnim = this.gameObject.GetComponentInChildren<Animator>();
     }
 
     protected void Update()

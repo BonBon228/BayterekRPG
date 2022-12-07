@@ -38,16 +38,29 @@ public class EnemyJin : Enemy
         {
             _isHunting = true;
             _isInRadius = true;
+            _spriteRenderer.color = new Color(1, 1, 1, 1);
         }
     }
 
     private IEnumerator TimeToDash()
     {
         DashToPlayer();
+        State = States.djin_attack;
         yield return new WaitForSeconds(0.5f);
         enemyRb.velocity = Vector3.zero;
+        State = States.djin_idle;
         _isHunting = false;
         yield return new WaitForSeconds(1f);
         _isHunting = true;
+    }
+
+    private States State {
+        get {return (States)_enemyAnim.GetInteger("myState");}
+        set {_enemyAnim.SetInteger("myState", (int)value);}
+    }
+    
+    private enum States {
+        djin_idle,
+        djin_attack
     }
 }
