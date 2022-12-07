@@ -8,7 +8,7 @@ public class MainCharacter : MonoBehaviour
     [SerializeField] private int _currentHealthBar = 4; //Конкретное количество жизни у ГГ
     [SerializeField] private float _speed = 3f; //Скорость персонажа
     [SerializeField] private float _jumpForce = 5f; //Сила прижка
-    private bool isGrounded = true;
+    private bool _isGrounded = true;
 
     private Rigidbody2D rb;
     private Animator anim;
@@ -21,7 +21,7 @@ public class MainCharacter : MonoBehaviour
     }
 
     private void Run() {
-        //if(isGrounded) State = States.run;
+        if(_isGrounded) State = States.run;
 
         Vector3 dir = transform.right * Input.GetAxis("Horizontal");
         transform.position = Vector3.MoveTowards(transform.position, transform.position + dir, _speed * Time.deltaTime);
@@ -34,11 +34,11 @@ public class MainCharacter : MonoBehaviour
 
     private void Update() {
 
-        if(isGrounded) State = States.idle;
+        if(_isGrounded) State = States.idle;
 
         if(Input.GetButton("Horizontal"))
             Run();
-        if(isGrounded && Input.GetButtonDown("Jump"))
+        if(_isGrounded && Input.GetButtonDown("Jump"))
             Jump();
     }
 
@@ -52,9 +52,9 @@ public class MainCharacter : MonoBehaviour
 
     private void CheckGround() {
         Collider2D[] collider = Physics2D.OverlapCircleAll(transform.position, 0.3f);
-        isGrounded = collider.Length > 1;
+        _isGrounded = collider.Length > 1;
 
-        if(!isGrounded) State = States.jump;
+        if(!_isGrounded) State = States.jump;
     }
 
     private States State {
@@ -65,6 +65,7 @@ public class MainCharacter : MonoBehaviour
     private enum States {
         idle_normal,
         idle,
-        jump
+        jump,
+        run
     }
 }
