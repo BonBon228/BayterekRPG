@@ -42,7 +42,7 @@ public class MainCharacter : MonoBehaviour
     }
 
     private void Run() {
-        if(_isGrounded) State = States.run;
+        if(_isGrounded && !_isAttacking) State = States.run;
 
         Vector3 dir = transform.right * Input.GetAxis("Horizontal");
         transform.position = Vector3.MoveTowards(transform.position, transform.position + dir, _speed * Time.deltaTime);
@@ -63,14 +63,17 @@ public class MainCharacter : MonoBehaviour
             return;
         }
 
-        if(_isGrounded) State = States.idle;
+        if(_isGrounded && !_isAttacking) State = States.idle;
 
         if(Input.GetButton("Horizontal"))
             Run();
+
         if(_isGrounded && Input.GetButtonDown("Jump"))
             Jump();
-        if(Input.GetKeyDown(KeyCode.D) && _canDash)
+        if(Input.GetKeyDown(KeyCode.S) && _canDash)
             StartCoroutine(Dash());
+        if(Input.GetKeyDown(KeyCode.D))
+            StartCoroutine(Attacking());
 
         Flip();
     }
@@ -83,7 +86,7 @@ public class MainCharacter : MonoBehaviour
         Collider2D[] collider = Physics2D.OverlapCircleAll(transform.position, 0.3f);
         _isGrounded = collider.Length > 1;
 
-        if(!_isGrounded) State = States.jump;
+        if(!_isGrounded && !_isAttacking) State = States.jump;
     }
 
     private void Flip() {
@@ -125,6 +128,13 @@ public class MainCharacter : MonoBehaviour
         _isInvincible = false;
     }
 
+    private IEnumerator Attacking() {
+        _isAttacking = true;
+        State = States.attack;
+        yield return new WaitForSeconds(1f);
+        _isAttacking = false;
+    }
+
     private States State {
         get {return (States)anim.GetInteger("myState");}
         set {anim.SetInteger("myState", (int)value);}
@@ -135,6 +145,7 @@ public class MainCharacter : MonoBehaviour
         idle,
         jump,
         run,
+        attack,
         dash,
         death
     }
