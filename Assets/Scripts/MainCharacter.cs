@@ -8,11 +8,22 @@ public class MainCharacter : MonoBehaviour
     [SerializeField] private int _currentHealthBar = 4; //Конкретное количество жизни у ГГ
     [SerializeField] private float _speed = 3f; //Скорость персонажа
     [SerializeField] private float _jumpForce = 5f; //Сила прижка
+
     private bool _isGrounded = true;
+
+    private float horizontal;
+    private bool _isFacingRight = true;
+
+    private bool _canDash = true;
+    private bool _isDashing;
+    [SerializeField]private float _dashingPower = 24f;
+    [SerializeField]private float _dashingTime = 0.2f;
+    [SerializeField]private float _dashingCooldown = 1f;
 
     private Rigidbody2D rb;
     private Animator anim;
     private SpriteRenderer sprite;
+    [SerializeField]private TrailRenderer tr;
 
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
@@ -25,14 +36,22 @@ public class MainCharacter : MonoBehaviour
 
         Vector3 dir = transform.right * Input.GetAxis("Horizontal");
         transform.position = Vector3.MoveTowards(transform.position, transform.position + dir, _speed * Time.deltaTime);
-        sprite.flipX = dir.x < 0.0f;
     }
 
     private void FixedUpdate() {
+        if(_isDashing) {
+            return;
+        }
+
         CheckGround();
     }
 
     private void Update() {
+        horizontal = Input.GetAxisRaw("Horizontal");
+
+        if(_isDashing) {
+            return;
+        }
 
         if(_isGrounded) State = States.idle;
 
@@ -40,14 +59,14 @@ public class MainCharacter : MonoBehaviour
             Run();
         if(_isGrounded && Input.GetButtonDown("Jump"))
             Jump();
+        if(Input.GetKeyDown(KeyCode.D) && _canDash)
+            StartCoroutine(Dash());
+
+        Flip();
     }
 
     private void Jump() {
         rb.AddForce(transform.up * _jumpForce, ForceMode2D.Impulse); 
-    }
-
-    private void DashandSlash() {
-        //empty
     }
 
     private void CheckGround() {
@@ -55,6 +74,15 @@ public class MainCharacter : MonoBehaviour
         _isGrounded = collider.Length > 1;
 
         if(!_isGrounded) State = States.jump;
+    }
+
+    private void Flip() {
+        if(_isFacingRight && horizontal < 0f || !_isFacingRight && horizontal > 0f) {
+            Vector3 localScale = transform.localScale;
+            _isFacingRight = !_isFacingRight;
+            localScale.x *= -1f;
+            transform.localScale = localScale;
+        }
     }
 
     private States State {
@@ -66,6 +94,25 @@ public class MainCharacter : MonoBehaviour
         idle_normal,
         idle,
         jump,
-        run
+        run,
+        dash
+    }
+
+    private IEnumerator Dash() {
+        _canDash = false;
+        _isDashing = true;
+        State = States.dash;
+        float originalGravity = rb.gravityScale;
+        rb.gravityScale = 0f;
+        rb.velocity = new Vector2(transform.localScale.x * _dashingPower, 0f);
+        tr.emitting = true;
+        yield return new WaitForSeconds(_dashingTime);
+        tr.emitting = false;
+        rb.gravityScale = originalGravity;
+        _isDashing = false;
+        rb.velocity = Vector2.zero;
+        State = States.idle;
+        yield return new WaitForSeconds(_dashingCooldown);
+        _canDash = true;
     }
 }
