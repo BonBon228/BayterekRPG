@@ -16,6 +16,12 @@ public abstract class Enemy : MonoBehaviour
     protected Rigidbody2D enemyRb;
     protected Animator _enemyAnim;
 
+    protected bool _isAttacked = false;
+
+    private GameObject attackZone;
+
+    public static Enemy Instance { get; set; }
+
     protected void Awake()
     {
         SetHealth(health);
@@ -28,11 +34,38 @@ public abstract class Enemy : MonoBehaviour
         enemyRb = this.gameObject.GetComponent<Rigidbody2D>();
         _spriteRenderer = this.gameObject.GetComponentInChildren<SpriteRenderer>();
         _enemyAnim = this.gameObject.GetComponentInChildren<Animator>();
+        attackZone = GameObject.FindGameObjectWithTag("AttackZone");
+        if(Instance == null)
+        {
+            Instance = this;
+        }
     }
 
     protected void Update()
     {
         PlayerPositionCalculate();
+    }
+
+    public void GetDamage() 
+    {
+        if(!_isAttacked)
+            StartCoroutine(Attacked());
+    }
+
+    private IEnumerator Attacked()
+    {
+        _isAttacked = true;
+        health--;
+        Debug.Log(health);
+        if(health < 1) 
+            Die();
+        yield return new WaitForSeconds(1f);
+        _isAttacked = false;
+    }
+
+    protected void Die()
+    {
+        Destroy(this.gameObject);
     }
 
     protected void SetHealth(int value)

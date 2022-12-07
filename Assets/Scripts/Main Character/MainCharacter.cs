@@ -9,6 +9,10 @@ public class MainCharacter : MonoBehaviour
     [SerializeField] private float _speed = 3f; //Скорость персонажа
     [SerializeField] private float _jumpForce = 5f; //Сила прижка
 
+    private bool _isInvincible = false;
+
+    public bool _isAttacking = false;
+
     private bool _isGrounded = true;
 
     private float horizontal;
@@ -25,10 +29,16 @@ public class MainCharacter : MonoBehaviour
     private SpriteRenderer sprite;
     [SerializeField]private TrailRenderer tr;
 
+    public static MainCharacter Instance { get; set; }
+
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
         sprite = GetComponentInChildren<SpriteRenderer>();
+        if(Instance == null)
+        {
+            Instance = this;
+        }
     }
 
     private void Run() {
@@ -85,6 +95,36 @@ public class MainCharacter : MonoBehaviour
         }
     }
 
+    public void GetDamage() {
+        Debug.Log(_currentHealthBar);
+        if(!_isInvincible) {
+            StartCoroutine(Attacked());
+        }
+    }
+
+    private IEnumerator Attacked() {
+        _isInvincible = true;
+        if(_currentHealthBar == 1) {
+            _isDashing = true;
+            State = States.death;
+            yield return new WaitForSeconds(1.5f);
+            Time.timeScale = 0;
+        }
+        _currentHealthBar -= 1;
+        sprite.color = new Color(1,1,1,(float)0.5);
+        yield return new WaitForSeconds(0.2f);
+        sprite.color = new Color(1,1,1,1);
+        yield return new WaitForSeconds(0.2f);
+        sprite.color = new Color(1,1,1,(float)0.5);
+        yield return new WaitForSeconds(0.2f);
+        sprite.color = new Color(1,1,1,1);
+        yield return new WaitForSeconds(0.2f);
+        sprite.color = new Color(1,1,1,(float)0.5);
+        yield return new WaitForSeconds(0.2f);
+        sprite.color = new Color(1,1,1,1);
+        _isInvincible = false;
+    }
+
     private States State {
         get {return (States)anim.GetInteger("myState");}
         set {anim.SetInteger("myState", (int)value);}
@@ -95,12 +135,15 @@ public class MainCharacter : MonoBehaviour
         idle,
         jump,
         run,
-        dash
+        dash,
+        death
     }
 
     private IEnumerator Dash() {
         _canDash = false;
         _isDashing = true;
+        _isInvincible = true;
+        _isAttacking = true;
         State = States.dash;
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0f;
@@ -110,6 +153,8 @@ public class MainCharacter : MonoBehaviour
         tr.emitting = false;
         rb.gravityScale = originalGravity;
         _isDashing = false;
+        _isInvincible = false;
+        _isAttacking = false;
         rb.velocity = Vector2.zero;
         State = States.idle;
         yield return new WaitForSeconds(_dashingCooldown);

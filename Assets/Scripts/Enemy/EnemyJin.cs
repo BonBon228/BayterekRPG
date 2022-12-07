@@ -8,6 +8,14 @@ public class EnemyJin : Enemy
     private bool _isInRadius = false;
     private bool _isDashing;
 
+    private void OnTriggerEnter2D(Collider2D col) {
+        if(col != null) {
+            if(col.gameObject == MainCharacter.Instance.gameObject) {
+                MainCharacter.Instance.GetDamage();
+            }
+        }
+    }
+
     private void Update() 
     {
         base.Update();
