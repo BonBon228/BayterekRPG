@@ -6,16 +6,24 @@ public class EnemyJin : Enemy
 {   
     private bool _isHunting = false;
     private bool _isInRadius = false;
+    private bool _isDashing;
 
     private void Update() 
     {
         base.Update();
-        
+        if(_isDashing)
+        {
+            return;
+        }
         CalculatePositionToAttack();
     }
 
     private void FixedUpdate() 
-    {
+    {   
+        if(_isDashing)
+        {
+            return;
+        }
         if(_isHunting == true)
         {
             MoveCharacter();
@@ -45,6 +53,7 @@ public class EnemyJin : Enemy
 
     private IEnumerator TimeToDash()
     {
+        _isDashing = true;
         DashToPlayer();
         State = States.djin_attack;
         yield return new WaitForSeconds(0.5f);
@@ -52,6 +61,7 @@ public class EnemyJin : Enemy
         State = States.djin_idle;
         _isHunting = false;
         yield return new WaitForSeconds(1f);
+        _isDashing = false;
         _isHunting = true;
     }
 
