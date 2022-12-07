@@ -7,11 +7,12 @@ public class EnemyArcher : Enemy
 
     void Start()
     {
-        
+        base.Start();
+
     }
 
     void Update()
     {
-        
+        base.Update();
     }
 }
