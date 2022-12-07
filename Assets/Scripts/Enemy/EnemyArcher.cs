@@ -8,6 +8,7 @@ public class EnemyArcher : Enemy
     private bool _canShoot;
     private Vector3 _normal;
     [SerializeField] private Transform[] controlPoints;
+    [SerializeField] private GameObject _projectile;
     private Vector2 gizmozPosition;
     private Transform _playerTransform;
     
@@ -84,7 +85,7 @@ public class EnemyArcher : Enemy
     {
         if(_canShoot == true)
         {
-            
+            Instantiate(_projectile, controlPoints[0].position, Quaternion.identity);
         }
     }
 

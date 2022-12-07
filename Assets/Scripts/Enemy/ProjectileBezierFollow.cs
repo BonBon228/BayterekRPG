@@ -5,31 +5,31 @@ using UnityEngine;
 public class ProjectileBezierFollow : MonoBehaviour
 {
     [SerializeField] private Transform[] routes;
-    private int routeToGo;
+    public int routeToGo;
     private float tParam;
-    private Vector2 catPosition;
+    private Vector2 _projectilePosition;
     private float speedModifier;
-    private bool coroutineAllowed;
+    public bool CoroutineAllowed { get; private set; }
 
     private void Start() 
     {
         routeToGo = 0;
         tParam = 0f;
         speedModifier = 0.5f;
-        coroutineAllowed = true;
+        CoroutineAllowed = true;
     }
 
     private void Update() 
     {
-        if(coroutineAllowed)
+        if(CoroutineAllowed)
         {
             StartCoroutine(GoByTheRoute(routeToGo));
         }    
     }
 
-    private IEnumerator GoByTheRoute(int routeNumber)
+    public IEnumerator GoByTheRoute(int routeNumber)
     {
-        coroutineAllowed = false;
+        CoroutineAllowed = false;
         Vector2 p0 = routes[routeNumber].GetChild(0).position;
         Vector2 p1 = routes[routeNumber].GetChild(1).position;
         Vector2 p2 = routes[routeNumber].GetChild(2).position;
@@ -38,12 +38,12 @@ public class ProjectileBezierFollow : MonoBehaviour
         {
             tParam += Time.deltaTime * speedModifier;
 
-            catPosition = Mathf.Pow(1 - tParam, 3) * p0 +
+            _projectilePosition = Mathf.Pow(1 - tParam, 3) * p0 +
             3 * Mathf.Pow(1 - tParam, 2) * tParam  * p1 +
             3 * (1 - tParam) * Mathf.Pow(tParam, 2) * p2 +
             Mathf.Pow(tParam, 3) * p3;
 
-            transform.position = catPosition;
+            transform.position = _projectilePosition;
             yield return new WaitForEndOfFrame();
         }
 
@@ -56,6 +56,6 @@ public class ProjectileBezierFollow : MonoBehaviour
             routeToGo = 0;
         }
 
-        coroutineAllowed = true;
+        CoroutineAllowed = true;
     }
 }
