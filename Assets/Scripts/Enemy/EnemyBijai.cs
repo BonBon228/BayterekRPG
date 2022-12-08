@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyBijai : Enemy
 {
+    [SerializeField] private AudioSource sawSound;
+    [SerializeField] private AudioSource attackSound;
     private int _permSpeed;
     private bool _canAttack = true;
     private bool _canUlt = true;
@@ -53,6 +55,7 @@ public class EnemyBijai : Enemy
     {
         if(distance > 8f && distance < 15f)
         {
+            sawSound.Play();
             if(_canUlt == true)
             {
                 StartCoroutine(DashPlayer());
@@ -124,6 +127,7 @@ public class EnemyBijai : Enemy
     {
         _canAttack = false;
         _isAttacking = true;
+        attackSound.Play();
         speed = 0;
         State = States.attack;
         yield return new WaitForSeconds(1f);

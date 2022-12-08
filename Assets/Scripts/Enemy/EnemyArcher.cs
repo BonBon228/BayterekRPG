@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyArcher : Enemy
 {
+    [SerializeField] private AudioSource attackSound;
     private bool _isShooting;
     private bool _canShoot;
     private Vector3 _normal;
@@ -69,6 +70,7 @@ public class EnemyArcher : Enemy
         }
         else if(distance < 7f)
         {
+            attackSound.Play();
             if(transform.position.x < playerTransform.position.x)
             {
                 transform.Translate(-speed * Time.deltaTime, 0, 0);

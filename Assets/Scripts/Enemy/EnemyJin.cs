@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyJin : Enemy
 {   
+    [SerializeField] private AudioSource attackSound;
     private bool _isHunting = false;
     private bool _isInRadius = false;
     private bool _isDashing;
@@ -56,6 +57,7 @@ public class EnemyJin : Enemy
             _isHunting = true;
             _isInRadius = true;
             _spriteRenderer.color = new Color(1, 1, 1, 1);
+            attackSound.Play();
         }
     }
 

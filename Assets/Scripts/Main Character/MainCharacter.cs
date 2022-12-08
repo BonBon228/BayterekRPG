@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class MainCharacter : MonoBehaviour
 {
+    [SerializeField] private AudioSource jumpSound;
+    [SerializeField] private AudioSource dashSound;
+    [SerializeField] private AudioSource attackSound;
     [SerializeField] private int _healthBar; //Максимальное количество жизни у ГГ
     [SerializeField] private int _currentHealthBar; //Конкретное количество жизни у ГГ
     [SerializeField] private float _speed = 3f; //Скорость персонажа
@@ -51,7 +54,9 @@ public class MainCharacter : MonoBehaviour
     }
 
     private void Run() {
-        if(_isGrounded && !_isAttacking) State = States.run;
+        if(_isGrounded && !_isAttacking) {
+            State = States.run;
+        }
 
         Vector3 dir = transform.right * Input.GetAxis("Horizontal");
         transform.position = Vector3.MoveTowards(transform.position, transform.position + dir, _speed * Time.deltaTime);
@@ -103,6 +108,7 @@ public class MainCharacter : MonoBehaviour
     }
 
     private void Jump() {
+        jumpSound.Play();
         rb.AddForce(transform.up * _jumpForce, ForceMode2D.Impulse); 
     }
 
@@ -157,6 +163,7 @@ public class MainCharacter : MonoBehaviour
     private IEnumerator Attacking() {
         _isAttacking = true;
         State = States.attack;
+        attackSound.Play();
         yield return new WaitForSeconds(0.75f);
         col.enabled = !col.enabled;
         _isAttacking = false;
@@ -184,6 +191,7 @@ public class MainCharacter : MonoBehaviour
         _isDashing = true;
         _isAttacking = true;
         State = States.dash;
+        dashSound.Play();
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0f;
         rb.velocity = new Vector2(transform.localScale.x * _dashingPower, 0f);

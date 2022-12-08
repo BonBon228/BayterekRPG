@@ -21,7 +21,6 @@ public class CameraController : MonoBehaviour
             Mathf.Clamp(targetPosition.y, minValues.y, maxValues.y),
             Mathf.Clamp(targetPosition.z, minValues.z, maxValues.z));
 
-        Vector3 smoothPosition = Vector3.Lerp(transform.position, boundPosition, smoothFactor*Time.fixedDeltaTime);
-        transform.position = smoothPosition;
+        transform.position = Vector3.Lerp(transform.position, boundPosition, smoothFactor*Time.deltaTime);
     }
 }
