@@ -18,6 +18,8 @@ public abstract class Enemy : MonoBehaviour
 
     protected bool _isAttacked = false;
 
+    protected bool _isFacingRight = false;
+
     private GameObject attackZone;
 
     public static Enemy Instance { get; set; }
@@ -51,6 +53,15 @@ public abstract class Enemy : MonoBehaviour
     {
         if(!_isAttacked)
             StartCoroutine(Attacked());
+    }
+
+    protected void Flip() {
+        if(_isFacingRight && transform.position.x > playerTransform.position.x || !_isFacingRight && playerTransform.position.x > transform.position.x) {
+            Vector3 localScale = transform.localScale;
+            _isFacingRight = !_isFacingRight;
+            localScale.x *= -1f;
+            transform.localScale = localScale;
+        }
     }
 
     private IEnumerator Attacked()

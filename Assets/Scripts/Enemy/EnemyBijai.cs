@@ -26,7 +26,7 @@ public class EnemyBijai : Enemy
 
     private void MoveToPlayer()
     {
-        _spriteRenderer.flipX = transform.position.x < playerTransform.position.x;
+        Flip();
         if(distance > 2f)
         {
             speed = _permSpeed;
