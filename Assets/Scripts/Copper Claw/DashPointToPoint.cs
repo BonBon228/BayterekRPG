@@ -5,10 +5,10 @@ using UnityEngine;
 public class DashPointToPoint : SpawnerDots
 {
     [SerializeField] private float _speed;
-    [SerializeField] private bool _isLeft;
+    [SerializeField] private Transform _copperClawTransform;
+    private bool _isLeft;
     private Transform target;
     private float _step;
-    private bool _isDashing;
 
     private void Start()
     {
@@ -17,16 +17,15 @@ public class DashPointToPoint : SpawnerDots
 
     void Update()
     {
-        transform.position = new Vector2(_player.transform.position.x, transform.position.y);
         _step =  _speed * Time.deltaTime;
         if(_isLeft == true)
         {
-            transform.position = Vector3.MoveTowards(transform.position, _points[1].transform.position, _step);
+            _copperClawTransform.position = Vector3.MoveTowards(_copperClawTransform.position, _points[1].transform.position, _step);
             StartCoroutine(ToRight());
         }
         else
         {
-            transform.position = Vector3.MoveTowards(transform.position, _points[0].transform.position, _step);
+            _copperClawTransform.position = Vector3.MoveTowards(_copperClawTransform.position, _points[0].transform.position, _step);
             StartCoroutine(ToLeft());
         }
     }

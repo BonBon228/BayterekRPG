@@ -14,12 +14,13 @@ public class EnemySpawn : SpawnerDots
 
     private void JinSpawn()
     {
+        
+        transform.position = new Vector2(_player.transform.position.x, transform.position.y);
         _timer += Time.deltaTime;
 
         if(_timer >= _delay)
         {
             Instantiate(_jinEnemy, _points[Random.Range(0, _points.Length)].transform.position, Quaternion.identity);
-            transform.position = new Vector2(_player.transform.position.x, transform.position.y);
             _timer = 0f;
         }
     }
