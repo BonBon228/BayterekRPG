@@ -40,7 +40,7 @@ public class EnemyJin : Enemy
 
     private void MoveCharacter()
     {
-        _spriteRenderer.flipX = transform.position.x < playerTransform.position.x;
+        Flip();
         StartCoroutine(TimeToDash()); 
     }
 

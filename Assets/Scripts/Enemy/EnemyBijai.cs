@@ -5,8 +5,10 @@ using UnityEngine;
 public class EnemyBijai : Enemy
 {
     private int _permSpeed;
-    private bool _canAttack = true;
+    public bool _canAttack = true;
+    public bool _canUlt = true;
     public bool _isAttacking = false;
+    public bool _isUlting = false;
 
     void Start()
     {
@@ -17,6 +19,10 @@ public class EnemyBijai : Enemy
     void Update()
     {
         base.Update();
+        if(_isUlting)
+        {
+            return;
+        }
         if(_isAttacking)
         {
             return;
@@ -24,10 +30,30 @@ public class EnemyBijai : Enemy
         MoveToPlayer();
     }
 
+    void FixedUpdate()
+    {
+        if(_isUlting)
+        {
+            return;
+        }
+        RunToPlayer();
+    }
+
+    private void RunToPlayer()
+    {
+        if(distance > 8f && distance < 15f)
+        {
+            if(_canUlt == true)
+            {
+                StartCoroutine(DashPlayer());
+            }
+        }
+    }
+
     private void MoveToPlayer()
     {
         Flip();
-        if(distance > 2f)
+        if(distance > 2f && _isUlting == false)
         {
             speed = _permSpeed;
 
@@ -35,14 +61,14 @@ public class EnemyBijai : Enemy
             
             if(transform.position.x < playerTransform.position.x)
             {
-                transform.Translate(speed/10 * Time.deltaTime, 0, 0);
+                transform.Translate(transform.right * speed * Time.deltaTime);
             }
             else
             {
-                transform.Translate(-speed/10 * Time.deltaTime, 0, 0);
+                transform.Translate(-transform.right * speed * Time.deltaTime);
             }
         }
-        else
+        else if(distance < 2f)
         {
             if(_canAttack == true)
             {
@@ -53,6 +79,32 @@ public class EnemyBijai : Enemy
                 State = States.idle;
             }
         }
+    }
+
+    private void DashToPlayer()
+    {
+
+    }
+
+    private IEnumerator DashPlayer()
+    {
+        _canUlt = false;
+        _isUlting = true;
+        if(transform.position.x < playerTransform.position.x)
+        {
+            enemyRb.AddForce(transform.right * speed * 7000 * Time.deltaTime);
+        }
+        else
+        {
+            enemyRb.AddForce(-transform.right * speed * 7000 * Time.deltaTime);
+        }
+        State = States.dash;
+        yield return new WaitForSeconds(2f);
+        enemyRb.velocity = Vector2.zero;
+        _isUlting = false;
+        speed = 20;
+        yield return new WaitForSeconds(Random.Range(5, 10));
+        _canUlt = true;
     }
 
     private IEnumerator AttackDelay()
@@ -76,6 +128,7 @@ public class EnemyBijai : Enemy
     private enum States {
         idle,
         walk,
-        attack
+        attack,
+        dash
     }
 }
