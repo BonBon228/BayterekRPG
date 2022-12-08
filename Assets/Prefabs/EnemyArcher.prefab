@@ -378,6 +378,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1925279080417548952}
     m_Modifications:
+    - target: {fileID: 2067570383248820511, guid: dbc73c224851aa44184f1ecdc2a867c2, type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 0.58
+      objectReference: {fileID: 0}
+    - target: {fileID: 2067570383248820511, guid: dbc73c224851aa44184f1ecdc2a867c2, type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[0].value
+      value: 0.012168884
+      objectReference: {fileID: 0}
+    - target: {fileID: 2067570383248820511, guid: dbc73c224851aa44184f1ecdc2a867c2, type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].value
+      value: 0.10810724
+      objectReference: {fileID: 0}
     - target: {fileID: 2194698902182059391, guid: dbc73c224851aa44184f1ecdc2a867c2, type: 3}
       propertyPath: m_Name
       value: DieExplosion
