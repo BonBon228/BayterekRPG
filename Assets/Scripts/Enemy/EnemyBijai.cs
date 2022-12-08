@@ -6,7 +6,7 @@ public class EnemyBijai : Enemy
 {
     private int _permSpeed;
     private bool _canAttack = true;
-    private bool _isAttacking;
+    public bool _isAttacking = false;
 
     void Start()
     {

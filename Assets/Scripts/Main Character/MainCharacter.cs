@@ -21,7 +21,7 @@ public class MainCharacter : MonoBehaviour
     private bool _canDash = true;
     private bool _isDashing;
     [SerializeField]private float _dashingPower = 24f;
-    [SerializeField]private float _dashingTime = 0.2f;
+    [SerializeField]private float _dashingTime = 0.5f;
     [SerializeField]private float _dashingCooldown = 1f;
 
     private Rigidbody2D rb;
@@ -156,9 +156,9 @@ public class MainCharacter : MonoBehaviour
     }
 
     private IEnumerator Dash() {
+        _isInvincible = true;
         _canDash = false;
         _isDashing = true;
-        _isInvincible = true;
         _isAttacking = true;
         State = States.dash;
         float originalGravity = rb.gravityScale;
@@ -169,10 +169,10 @@ public class MainCharacter : MonoBehaviour
         tr.emitting = false;
         rb.gravityScale = originalGravity;
         _isDashing = false;
-        _isInvincible = false;
         _isAttacking = false;
         rb.velocity = Vector2.zero;
         State = States.idle;
+        _isInvincible = false;
         yield return new WaitForSeconds(_dashingCooldown);
         _canDash = true;
     }
