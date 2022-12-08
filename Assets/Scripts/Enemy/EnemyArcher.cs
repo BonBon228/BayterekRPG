@@ -16,6 +16,7 @@ public class EnemyArcher : Enemy
     {
         base.Start();
         _playerTransform = FindObjectOfType<MainCharacter>().GetComponent<Transform>();
+        State = States.idle;
     }
 
     private void Update() 
@@ -24,13 +25,13 @@ public class EnemyArcher : Enemy
         controlPoints[3].position = new Vector2(_playerTransform.position.x, _playerTransform.position.y);
         controlPoints[2].position = new Vector2(_playerTransform.position.x, _playerTransform.position.y + distance / 2f);
         controlPoints[1].position = new Vector2(controlPoints[1].position.x, transform.position.y + distance / 2f);
+        MoveCharacter();
         if(_isShooting)
         {
             return;
         }
         CalculatePositionToAttack();
         ShootPlayer();
-        MoveCharacter();
     }
 
     private void OnDrawGizmos()
@@ -55,27 +56,26 @@ public class EnemyArcher : Enemy
     private void MoveCharacter()
     {
         _spriteRenderer.flipX = transform.position.x < playerTransform.position.x;
-
         if(distance > 10 && _canShoot == true)
         {
             if(transform.position.x < playerTransform.position.x)
             {
-                transform.Translate(speed/10 * Time.deltaTime, 0, 0);
+                transform.Translate(speed * Time.deltaTime, 0, 0);
             }
             else
             {
-                transform.Translate(-speed/10 * Time.deltaTime, 0, 0);
+                transform.Translate(-speed * Time.deltaTime, 0, 0);
             }
         }
-        if(distance < 7f)
+        else if(distance < 7f)
         {
             if(transform.position.x < playerTransform.position.x)
             {
-                transform.Translate(-speed/10 * Time.deltaTime, 0, 0);
+                transform.Translate(-speed * Time.deltaTime, 0, 0);
             }
             else
             {
-                transform.Translate(speed/10 * Time.deltaTime, 0, 0);
+                transform.Translate(speed * Time.deltaTime, 0, 0);
             }
         }
     }
@@ -99,10 +99,22 @@ public class EnemyArcher : Enemy
     private IEnumerator TimeToShoot()
     {
         _isShooting = true;
-        _projectile.SetActive(true);
-        Instantiate(_projectile, controlPoints[0].position, Quaternion.identity);
+        State = States.attack;
+        GameObject proj;
+        proj = Instantiate(_projectile, controlPoints[0].position, Quaternion.identity);
+        proj.SetActive(true);
         //State = States.attack;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
+        if(distance > 10 || distance < 7)
+        {
+            State = States.run;
+        }
+        else
+        {
+            State = States.idle;
+        }
+        yield return new WaitForSeconds(0.5f);
+        Destroy(proj);
         _isShooting = false;
         //State = States.idle;
         

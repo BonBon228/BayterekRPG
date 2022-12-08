@@ -134,7 +134,7 @@ public class MainCharacter : MonoBehaviour
     private IEnumerator Attacking() {
         _isAttacking = true;
         State = States.attack;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.75f);
         col.enabled = !col.enabled;
         _isAttacking = false;
         col.enabled = !col.enabled;

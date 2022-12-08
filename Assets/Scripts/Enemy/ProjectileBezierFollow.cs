@@ -10,6 +10,7 @@ public class ProjectileBezierFollow : MonoBehaviour
     private Vector2 _projectilePosition;
     public float speedModifier;
     public bool CoroutineAllowed { get; private set; }
+    [SerializeField] private GameObject parentGO;
 
     private void OnTriggerEnter2D(Collider2D col) {
         if(col != null) {
@@ -32,6 +33,10 @@ public class ProjectileBezierFollow : MonoBehaviour
         {
             StartCoroutine(GoByTheRoute(routeToGo));
         }    
+        if(parentGO == null)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public IEnumerator GoByTheRoute(int routeNumber)
