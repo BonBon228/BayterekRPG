@@ -68,7 +68,7 @@ public class EnemyBijai : Enemy
             speed = _permSpeed;
 
             State = States.walk;
-            
+
             if(transform.position.x < playerTransform.position.x)
             {
                 transform.Translate(transform.right * speed * Time.deltaTime);
