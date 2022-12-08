@@ -83,7 +83,7 @@ public class MainCharacter : MonoBehaviour
     }
 
     private void CheckGround() {
-        Collider2D[] collider = Physics2D.OverlapCircleAll(transform.position, 0.3f);
+        Collider2D[] collider = Physics2D.OverlapCircleAll(transform.position, 0.3f, 3);
         _isGrounded = collider.Length > 1;
 
         if(!_isGrounded && !_isAttacking) State = States.jump;
