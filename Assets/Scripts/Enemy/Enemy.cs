@@ -21,6 +21,7 @@ public abstract class Enemy : MonoBehaviour
     private GameObject attackZone;
 
     public static Enemy Instance { get; set; }
+    [SerializeField] private GameObject _dieExplosion;
 
     protected void Awake()
     {
@@ -65,6 +66,8 @@ public abstract class Enemy : MonoBehaviour
 
     protected void Die()
     {
+        GameObject particleGO = Instantiate(_dieExplosion, transform.position, Quaternion.identity);
+        particleGO.SetActive(true);
         Destroy(this.gameObject);
     }
 
