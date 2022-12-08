@@ -12,7 +12,6 @@ public class EnemyArcher : Enemy
     private Vector2 gizmozPosition;
     private Transform _playerTransform;
     
-    
     private void Start() 
     {
         base.Start();
@@ -85,7 +84,7 @@ public class EnemyArcher : Enemy
     {
         if(_canShoot == true)
         {
-            TimeToShoot();
+            StartCoroutine(TimeToShoot());
         }
     }
 
@@ -100,11 +99,12 @@ public class EnemyArcher : Enemy
     private IEnumerator TimeToShoot()
     {
         _isShooting = true;
+        _projectile.SetActive(true);
         Instantiate(_projectile, controlPoints[0].position, Quaternion.identity);
-        State = States.attack;
+        //State = States.attack;
         yield return new WaitForSeconds(1f);
         _isShooting = false;
-        State = States.idle;
+        //State = States.idle;
         
     }
 

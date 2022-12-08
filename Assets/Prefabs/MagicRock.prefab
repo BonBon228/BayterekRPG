@@ -147,4 +147,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   routes: []
-  routeToGo: 0
+  routeToGo: 1
+  speedModifier: 1

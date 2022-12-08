@@ -11,6 +11,14 @@ public class ProjectileBezierFollow : MonoBehaviour
     public float speedModifier;
     public bool CoroutineAllowed { get; private set; }
 
+    private void OnTriggerEnter2D(Collider2D col) {
+        if(col != null) {
+            if(col.gameObject == MainCharacter.Instance.gameObject) {
+                MainCharacter.Instance.GetDamage();
+            }
+        }
+    }
+
     private void Start() 
     {
         routeToGo = 0;
