@@ -4,22 +4,24 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] private Transform player;
-    private Vector3 pos;
+    public Transform target;
+    public Vector3 offset;
+    [Range(1,10)]
+    public float smoothFactor;    
+    public Vector3 minValues, maxValues;
 
-    private void Awake() {
-        if(!player)
-            player = FindObjectOfType<MainCharacter>().transform;
+    private void FixedUpdate() {
+        Follow();
     }
 
-    private void Update() {
-        pos = player.position;
-        if(pos.x < -5)
-            pos.x = -5;
-        if(pos.y < 0)
-            pos.y = 0;
-        pos.z = -10f;
+    private void Follow() {
+        Vector3 targetPosition = target.position + offset;
+        Vector3 boundPosition = new Vector3(
+            Mathf.Clamp(targetPosition.x, minValues.x, maxValues.x),
+            Mathf.Clamp(targetPosition.y, minValues.y, maxValues.y),
+            Mathf.Clamp(targetPosition.z, minValues.z, maxValues.z));
 
-        transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime*4);
+        Vector3 smoothPosition = Vector3.Lerp(transform.position, boundPosition, smoothFactor*Time.fixedDeltaTime);
+        transform.position = smoothPosition;
     }
 }

@@ -1,14 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainCharacter : MonoBehaviour
 {
-    [SerializeField] private int _healthBar = 4; //Максимальное количество жизни у ГГ
-    [SerializeField] private int _currentHealthBar = 4; //Конкретное количество жизни у ГГ
+    [SerializeField] private int _healthBar; //Максимальное количество жизни у ГГ
+    [SerializeField] private int _currentHealthBar; //Конкретное количество жизни у ГГ
     [SerializeField] private float _speed = 3f; //Скорость персонажа
     [SerializeField] private float _jumpForce = 5f; //Сила прижка
-
+    [SerializeField] private Image[] hearts;
+    [SerializeField] private Image HeadHB;
+    [SerializeField] private Sprite aliveHeart;
+    [SerializeField] private Sprite deadHeart;
     private bool _isInvincible = false;
 
     public bool _isAttacking = false;
@@ -34,6 +38,8 @@ public class MainCharacter : MonoBehaviour
     public static MainCharacter Instance { get; set; }
 
     private void Awake() {
+        _healthBar = 4;
+        _currentHealthBar = _healthBar;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
         sprite = GetComponentInChildren<SpriteRenderer>();
@@ -60,6 +66,21 @@ public class MainCharacter : MonoBehaviour
     }
 
     private void Update() {
+        if(_currentHealthBar > _healthBar)
+            _currentHealthBar = _healthBar;
+
+        for(int i=0;i<hearts.Length;i++) {
+            if(i<_currentHealthBar)
+                hearts[i].sprite = aliveHeart;
+            else
+                hearts[i].sprite = deadHeart;
+
+            if(i<_healthBar)
+                hearts[i].enabled = true;
+            else
+                hearts[i].enabled = false;
+        }
+
         horizontal = Input.GetAxisRaw("Horizontal");
 
         if(_isDashing) {
@@ -112,6 +133,8 @@ public class MainCharacter : MonoBehaviour
         _isInvincible = true;
         if(_currentHealthBar == 1) {
             _isDashing = true;
+            hearts[3].sprite = deadHeart;
+            HeadHB.color = new Color((float)0.17,(float)0.23,(float)0.415);
             State = States.death;
             yield return new WaitForSeconds(1.5f);
             Time.timeScale = 0;
