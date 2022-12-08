@@ -115,7 +115,7 @@ public class EnemyArcher : Enemy
     
     private enum States {
         idle,
-        walk,
+        run,
         attack
     }
 }
