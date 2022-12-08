@@ -52,7 +52,10 @@ public abstract class Enemy : MonoBehaviour
     public void GetDamage() 
     {
         if(!_isAttacked)
+        {
             StartCoroutine(Attacked());
+            StartCoroutine(ChangeSpriteColor());
+        }
     }
 
     protected void Flip() {
@@ -73,6 +76,13 @@ public abstract class Enemy : MonoBehaviour
             Die();
         yield return new WaitForSeconds(1f);
         _isAttacked = false;
+    }
+
+    private IEnumerator ChangeSpriteColor() 
+    {
+        _spriteRenderer.color = new Color(0.9f, 0.4f, 0.4f, 1);
+        yield return new WaitForSeconds(0.2f);
+        _spriteRenderer.color = new Color(1, 1, 1, 1);
     }
 
     protected void Die()

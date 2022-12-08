@@ -5,10 +5,11 @@ using UnityEngine;
 public class EnemyBijai : Enemy
 {
     private int _permSpeed;
-    public bool _canAttack = true;
-    public bool _canUlt = true;
-    public bool _isAttacking = false;
-    public bool _isUlting = false;
+    private bool _canAttack = true;
+    private bool _canUlt = true;
+    [HideInInspector] public bool _isAttacking = false;
+    [HideInInspector] public bool _isUlting = false;
+    private bool _isInRadius;
 
     void Start()
     {
@@ -19,6 +20,11 @@ public class EnemyBijai : Enemy
     void Update()
     {
         base.Update();
+        CalculateDistance();
+        if(!_isInRadius)
+        {
+            return;
+        }
         if(_isUlting)
         {
             return;
@@ -32,6 +38,10 @@ public class EnemyBijai : Enemy
 
     void FixedUpdate()
     {
+        if(!_isInRadius)
+        {
+            return;
+        }
         if(_isUlting)
         {
             return;
@@ -81,9 +91,12 @@ public class EnemyBijai : Enemy
         }
     }
 
-    private void DashToPlayer()
+    private void CalculateDistance()
     {
-
+        if(distance < 18)
+        {
+            _isInRadius = true;
+        }
     }
 
     private IEnumerator DashPlayer()
