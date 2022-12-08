@@ -8,14 +8,13 @@ public class ProjectileBezierFollow : MonoBehaviour
     public int routeToGo;
     private float tParam;
     private Vector2 _projectilePosition;
-    private float speedModifier;
+    public float speedModifier;
     public bool CoroutineAllowed { get; private set; }
 
     private void Start() 
     {
         routeToGo = 0;
         tParam = 0f;
-        speedModifier = 0.5f;
         CoroutineAllowed = true;
     }
 

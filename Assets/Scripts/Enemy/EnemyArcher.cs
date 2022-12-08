@@ -25,14 +25,13 @@ public class EnemyArcher : Enemy
         controlPoints[3].position = new Vector2(_playerTransform.position.x, _playerTransform.position.y);
         controlPoints[2].position = new Vector2(_playerTransform.position.x, _playerTransform.position.y + distance / 2f);
         controlPoints[1].position = new Vector2(controlPoints[1].position.x, transform.position.y + distance / 2f);
+        if(_isShooting)
+        {
+            return;
+        }
         CalculatePositionToAttack();
         ShootPlayer();
         MoveCharacter();
-    }
-
-    private void FixedUpdate() 
-    {   
-
     }
 
     private void OnDrawGizmos()
@@ -57,17 +56,18 @@ public class EnemyArcher : Enemy
     private void MoveCharacter()
     {
         _spriteRenderer.flipX = transform.position.x < playerTransform.position.x;
-        //if(distance > 15 && distance > 20)
-        //{
-        //    if(transform.position.x < playerTransform.position.x)
-        //    {
-        //        transform.Translate(speed/10 * Time.deltaTime, 0, 0);
-        //    }
-        //    else
-        //    {
-        //        transform.Translate(-speed/10 * Time.deltaTime, 0, 0);
-        //    }
-        //}
+
+        if(distance > 10 && _canShoot == true)
+        {
+            if(transform.position.x < playerTransform.position.x)
+            {
+                transform.Translate(speed/10 * Time.deltaTime, 0, 0);
+            }
+            else
+            {
+                transform.Translate(-speed/10 * Time.deltaTime, 0, 0);
+            }
+        }
         if(distance < 7f)
         {
             if(transform.position.x < playerTransform.position.x)
@@ -85,7 +85,7 @@ public class EnemyArcher : Enemy
     {
         if(_canShoot == true)
         {
-            Instantiate(_projectile, controlPoints[0].position, Quaternion.identity);
+            TimeToShoot();
         }
     }
 
@@ -99,8 +99,12 @@ public class EnemyArcher : Enemy
 
     private IEnumerator TimeToShoot()
     {
-        
+        _isShooting = true;
+        Instantiate(_projectile, controlPoints[0].position, Quaternion.identity);
+        State = States.attack;
         yield return new WaitForSeconds(1f);
+        _isShooting = false;
+        State = States.idle;
         
     }
 
