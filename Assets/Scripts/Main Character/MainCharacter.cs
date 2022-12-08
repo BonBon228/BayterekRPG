@@ -28,6 +28,7 @@ public class MainCharacter : MonoBehaviour
     private Animator anim;
     private SpriteRenderer sprite;
     [SerializeField]private TrailRenderer tr;
+    [SerializeField]private LayerMask Ground;
 
     public static MainCharacter Instance { get; set; }
 
@@ -83,8 +84,8 @@ public class MainCharacter : MonoBehaviour
     }
 
     private void CheckGround() {
-        Collider2D[] collider = Physics2D.OverlapCircleAll(transform.position, 0.3f, 3);
-        _isGrounded = collider.Length > 1;
+        bool contact = Physics2D.OverlapCircle(transform.position, 0.5f, Ground);
+        _isGrounded = contact;
 
         if(!_isGrounded && !_isAttacking) State = States.jump;
     }
