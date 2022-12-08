@@ -7,7 +7,7 @@ public abstract class Enemy : MonoBehaviour
 {
     [SerializeField] protected int health;
     [SerializeField] protected int speed;
-    [SerializeField]protected float distance;
+    [SerializeField] protected float distance;
     protected Vector2 direction;
     protected SpriteRenderer _spriteRenderer;
     protected int currentHealth; //Текущее здоровье врага

@@ -29,6 +29,7 @@ public class MainCharacter : MonoBehaviour
     private SpriteRenderer sprite;
     [SerializeField]private TrailRenderer tr;
     [SerializeField]private LayerMask Ground;
+    [SerializeField]private BoxCollider2D col;
 
     public static MainCharacter Instance { get; set; }
 
@@ -36,6 +37,7 @@ public class MainCharacter : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
         sprite = GetComponentInChildren<SpriteRenderer>();
+        col = GetComponentInChildren<BoxCollider2D>();
         if(Instance == null)
         {
             Instance = this;
@@ -73,7 +75,7 @@ public class MainCharacter : MonoBehaviour
             Jump();
         if(Input.GetKeyDown(KeyCode.S) && _canDash)
             StartCoroutine(Dash());
-        if(Input.GetKeyDown(KeyCode.D))
+        if(Input.GetKeyDown(KeyCode.D) && !_isAttacking)
             StartCoroutine(Attacking());
 
         Flip();
@@ -133,7 +135,9 @@ public class MainCharacter : MonoBehaviour
         _isAttacking = true;
         State = States.attack;
         yield return new WaitForSeconds(1f);
+        col.enabled = !col.enabled;
         _isAttacking = false;
+        col.enabled = !col.enabled;
     }
 
     private States State {

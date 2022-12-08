@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ObstaclePlayer : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D col) {
+    private void OnTriggerStay2D(Collider2D col) {
         if(col != null) {
             if(col.gameObject == Enemy.Instance.gameObject && FindObjectOfType<MainCharacter>()._isAttacking) {
                 Enemy.Instance.GetDamage();
