@@ -536,14 +536,14 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.52, y: 2.4}
+    oldSize: {x: 5.78, y: 2.14}
     newSize: {x: 0.76, y: 1.2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -1330,9 +1330,10 @@ MonoBehaviour:
   _points:
   - {fileID: 1441852322}
   - {fileID: 1162351002}
-  _delay: 1
-  _speed: 30
+  _delay: 1.5
+  _speed: 100
   _copperClawTransform: {fileID: 345323908}
+  anim: {fileID: 345323911}
 --- !u!1 &862253462
 GameObject:
   m_ObjectHideFlags: 0
@@ -1580,6 +1581,11 @@ MonoBehaviour:
   bossFightMusic: {fileID: 1110946440}
   canvas: {fileID: 1385779308}
   mobSpawn: {fileID: 377570337}
+  dash: {fileID: 819955360}
+  clawShoot: {fileID: 1226133237}
+  clawFall: {fileID: 1628965514}
+  bossWallOne: {fileID: 1645494677}
+  bossWallTwo: {fileID: 1147499036}
 --- !u!1 &1132060923
 GameObject:
   m_ObjectHideFlags: 0
@@ -1651,6 +1657,64 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.7060127, y: 1.6474397}
   m_EdgeRadius: 0
+--- !u!1 &1147499036
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1147499038}
+  - component: {fileID: 1147499037}
+  m_Layer: 3
+  m_Name: BossWallTwo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!61 &1147499037
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147499036}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -10.432388, y: 4.0597878}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.26971436, y: 10.830883}
+  m_EdgeRadius: 0
+--- !u!4 &1147499038
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147499036}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 180.1, y: -4.14, z: 244.90013}
+  m_LocalScale: {x: 4.1896873, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1151884694
 GameObject:
   m_ObjectHideFlags: 0
@@ -1893,8 +1957,9 @@ MonoBehaviour:
   - {fileID: 1266965015}
   - {fileID: 2027963013}
   - {fileID: 350627167}
-  _delay: 1
+  _delay: 3
   _bullet: {fileID: 5200989679892145385, guid: cb0f251b068eba747ad68acd05b69d68, type: 3}
+  anim: {fileID: 345323911}
 --- !u!1 &1228472261
 GameObject:
   m_ObjectHideFlags: 0
@@ -2362,6 +2427,64 @@ MonoBehaviour:
   - {fileID: 2022698529}
   _delay: 0.2
   _bullet: {fileID: 5200989679892145385, guid: cb0f251b068eba747ad68acd05b69d68, type: 3}
+--- !u!1 &1645494677
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1645494679}
+  - component: {fileID: 1645494678}
+  m_Layer: 3
+  m_Name: BossWallOne
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!61 &1645494678
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645494677}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -10.432388, y: 4.0597878}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.26971436, y: 10.830883}
+  m_EdgeRadius: 0
+--- !u!4 &1645494679
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645494677}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 161.3, y: -4.14, z: 244.90013}
+  m_LocalScale: {x: 4.1896873, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1676507988
 GameObject:
   m_ObjectHideFlags: 0
@@ -2605,7 +2728,7 @@ MonoBehaviour:
   aliveHeart: {fileID: -1207357529, guid: 998d9d608961a944098469602f6f7a39, type: 3}
   deadHeart: {fileID: 431006237, guid: 998d9d608961a944098469602f6f7a39, type: 3}
   _isAttacking: 0
-  _dashingPower: 20
+  _dashingPower: 15
   _dashingTime: 0.5
   _dashingCooldown: 1
   tr: {fileID: 2133234972}
