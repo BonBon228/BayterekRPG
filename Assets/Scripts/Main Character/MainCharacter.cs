@@ -137,14 +137,14 @@ public class MainCharacter : MonoBehaviour
 
     private IEnumerator Attacked() {
         _isInvincible = true;
-        if(_currentHealthBar == 1) {
-            _isDashing = true;
-            hearts[3].sprite = deadHeart;
-            HeadHB.color = new Color((float)0.17,(float)0.23,(float)0.415);
-            State = States.death;
-            yield return new WaitForSeconds(1.5f);
-            Time.timeScale = 0;
-        }
+        //if(_currentHealthBar == 1) {
+            //_isDashing = true;
+            //hearts[3].sprite = deadHeart;
+            //HeadHB.color = new Color((float)0.17,(float)0.23,(float)0.415);
+            //State = States.death;
+            //yield return new WaitForSeconds(1.5f);
+            //Time.timeScale = 0;
+        //}
         _currentHealthBar -= 1;
         sprite.color = new Color(1,1,1,(float)0.5);
         yield return new WaitForSeconds(0.2f);
