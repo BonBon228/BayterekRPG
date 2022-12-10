@@ -237,6 +237,10 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 2831067131998602007, guid: 534055fedaf21fe41b3310855077b026, type: 3}
+      propertyPath: HeadHB
+      value: 
+      objectReference: {fileID: 619313033}
+    - target: {fileID: 2831067131998602007, guid: 534055fedaf21fe41b3310855077b026, type: 3}
       propertyPath: hearts.Array.data[0]
       value: 
       objectReference: {fileID: 1490714036}
@@ -252,10 +256,6 @@ PrefabInstance:
       propertyPath: hearts.Array.data[3]
       value: 
       objectReference: {fileID: 59813471}
-    - target: {fileID: 2831067133062413838, guid: 534055fedaf21fe41b3310855077b026, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 534055fedaf21fe41b3310855077b026, type: 3}
 --- !u!1 &58077916
@@ -2146,6 +2146,7 @@ MonoBehaviour:
   clawFall: {fileID: 1628965514}
   bossWallOne: {fileID: 1645494677}
   bossWallTwo: {fileID: 1147499036}
+  _dieExplosion: {fileID: 0}
 --- !u!4 &1120719415 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2831067131998602000, guid: 534055fedaf21fe41b3310855077b026, type: 3}

@@ -156,7 +156,7 @@ public class MainCharacter : MonoBehaviour
             HeadHB.color = new Color((float)0.17,(float)0.23,(float)0.415);
             State = States.death;
             yield return new WaitForSeconds(1.5f);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
         _currentHealthBar -= 1;
         sprite.color = new Color(1,1,1,(float)0.5);
