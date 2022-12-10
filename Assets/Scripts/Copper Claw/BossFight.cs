@@ -12,19 +12,20 @@ public class BossFight : MonoBehaviour
     [SerializeField] private GameObject clawFall;
     [SerializeField] private GameObject bossWallOne;
     [SerializeField] private GameObject bossWallTwo;
+    private GameObject Player;
 
     private bool activated = false;
-    private void OnTriggerEnter2D(Collider2D col) {
-        if(col.gameObject.tag == "Player" && !activated) {
-            Debug.Log("Player entered!");
-            canvas.Stop();
-            bossFightMusic.Play();
-            FindObjectOfType<CameraController>().changeBool();
-            bossWallOne.SetActive(true);
-            bossWallTwo.SetActive(true);
-            activated = true;
-            StartCoroutine(StartFight());
-        }
+    private void OnEnable() {
+        Player = GameObject.FindGameObjectWithTag("Player");
+        Player.GetComponent<MainCharacter>().enabled = true;
+        Debug.Log("Player entered!");
+        canvas.Stop();
+        bossFightMusic.Play();
+        FindObjectOfType<CameraController>().changeBool();
+        bossWallOne.SetActive(true);
+        bossWallTwo.SetActive(true);
+        activated = true;
+        StartCoroutine(StartFight());
     }
 
     private IEnumerator Test() {

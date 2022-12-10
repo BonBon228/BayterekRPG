@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class Dialogue : MonoBehaviour
+public class DialogueForest : MonoBehaviour
 {
     public TextMeshProUGUI textComponent;
     public string[] lines;
@@ -11,14 +11,13 @@ public class Dialogue : MonoBehaviour
     private int index;
     private GameObject player;
     public GameObject dialogueTrigger;
-    public GameObject motherFire;
+    public GameObject BossScriptManager;
 
     void Start()
     {
         textComponent.text = string.Empty;
         StartDialogue();
         player = GameObject.FindWithTag("Player");
-        motherFire.SetActive(true);
     }
 
     // Update is called once per frame
@@ -63,17 +62,10 @@ public class Dialogue : MonoBehaviour
         }
         else
         {
-            StartCoroutine(End());
+            dialogueTrigger.SetActive(false);
+            BossScriptManager.SetActive(true);
+            gameObject.SetActive(false);
+            player.GetComponent<MainCharacter>().enabled = true;
         }
-    }
-
-    IEnumerator End()
-    {
-        motherFire.GetComponent<Animator>().SetInteger("MyState", 1);
-        yield return new WaitForSeconds(1.5f);
-        dialogueTrigger.SetActive(false);
-        motherFire.SetActive(false);
-        gameObject.SetActive(false);
-        player.GetComponent<MainCharacter>().enabled = true;
     }
 }
