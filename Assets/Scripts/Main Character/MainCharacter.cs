@@ -40,6 +40,14 @@ public class MainCharacter : MonoBehaviour
 
     public static MainCharacter Instance { get; set; }
 
+    private void OnTriggerEnter2D(Collider2D col) {
+        if(col != null) {
+            if(col.gameObject.tag == "CopperClaw") {
+                MainCharacter.Instance.GetDamage();
+            }
+        }
+    }
+
     private void Awake() {
         _healthBar = 4;
         _currentHealthBar = _healthBar;

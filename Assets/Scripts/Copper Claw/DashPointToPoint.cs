@@ -35,13 +35,15 @@ public class DashPointToPoint : SpawnerDots
         {
             Flip();
             _copperClawTransform.position = Vector3.MoveTowards(_copperClawTransform.position, _points[1].transform.position, _step);
-            StartCoroutine(ToRight());
+            if(!_isdashing)
+                StartCoroutine(ToRight());
         }
         else
         {
             Flip();
             _copperClawTransform.position = Vector3.MoveTowards(_copperClawTransform.position, _points[0].transform.position, _step);
-            StartCoroutine(ToLeft());
+            if(!_isdashing)
+                StartCoroutine(ToLeft());
         }
     }
 
@@ -56,23 +58,23 @@ public class DashPointToPoint : SpawnerDots
 
     private IEnumerator ToRight()
     {
-        //_isdashing = true;
+        _isdashing = true;
         State = States.dash;
         yield return new WaitForSeconds(0.3f);
         State = States.idle;
-        yield return new WaitForSeconds(_delay);
+        yield return new WaitForSeconds(_delay-0.3f);
         _isLeft = false;
-        //_isdashing = false;
+        _isdashing = false;
     }
 
     private IEnumerator ToLeft() {
-        //_isdashing = true;
+        _isdashing = true;
         State = States.dash;
         yield return new WaitForSeconds(0.3f);
         State = States.idle;
-        yield return new WaitForSeconds(_delay);
+        yield return new WaitForSeconds(_delay-0.3f);
         _isLeft = true;
-        //_isdashing = false;
+        _isdashing = false;
     }
 
     private States State {
@@ -83,6 +85,7 @@ public class DashPointToPoint : SpawnerDots
     private enum States {
         idle,
         shoot,
-        dash
+        dash,
+        spawn
     }
 }
