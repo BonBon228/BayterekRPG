@@ -62,10 +62,10 @@ public class DialogueForest : MonoBehaviour
         }
         else
         {
+            player.GetComponent<MainCharacter>().enabled = true;
             dialogueTrigger.SetActive(false);
             BossScriptManager.SetActive(true);
             gameObject.SetActive(false);
-            player.GetComponent<MainCharacter>().enabled = true;
         }
     }
 }
