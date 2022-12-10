@@ -194,7 +194,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2831067131998602000, guid: 534055fedaf21fe41b3310855077b026, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 120
+      value: 95.84
       objectReference: {fileID: 0}
     - target: {fileID: 2831067131998602000, guid: 534055fedaf21fe41b3310855077b026, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1923,7 +1923,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1147499037
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2208,7 +2208,7 @@ MonoBehaviour:
   - {fileID: 2027963013}
   - {fileID: 350627167}
   _delay: 3
-  _bullet: {fileID: 5200989679892145385, guid: cb0f251b068eba747ad68acd05b69d68, type: 3}
+  _bullet: {fileID: 5200989679892145385, guid: faa39ebf072d41c4b89dddeab76f1af8, type: 3}
   anim: {fileID: 345323911}
 --- !u!1 &1228472261
 GameObject:
@@ -2694,7 +2694,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1645494678
 BoxCollider2D:
   m_ObjectHideFlags: 0
