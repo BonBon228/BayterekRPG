@@ -59,6 +59,7 @@ public class BulletWaySpawn : SpawnerDots
     private enum States {
         idle,
         shoot,
-        dash
+        dash,
+        spawn
     }
 }

@@ -38,9 +38,6 @@ public class BossFight : MonoBehaviour
 
     private IEnumerator StartFight() {
         mobSpawn.SetActive(true);
-        yield return new WaitForSeconds(0.3f);
-        mobSpawn.SetActive(false);
-        mobSpawn.SetActive(true);
         mobSpawn.SetActive(false);
         yield return new WaitForSeconds(2.5f);
         mobSpawn.SetActive(true);

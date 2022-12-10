@@ -731,6 +731,7 @@ MonoBehaviour:
   - {fileID: 563391284}
   _delay: 7
   _jinEnemy: {fileID: 8760891008913293694, guid: e329066d21266c547a8a50764bd0b605, type: 3}
+  anim: {fileID: 345323911}
 --- !u!1 &478861840
 GameObject:
   m_ObjectHideFlags: 0
