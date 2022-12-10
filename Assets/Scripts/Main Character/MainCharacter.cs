@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MainCharacter : MonoBehaviour
 {
@@ -82,17 +83,7 @@ public class MainCharacter : MonoBehaviour
         if(_currentHealthBar > _healthBar)
             _currentHealthBar = _healthBar;
 
-        for(int i=0;i<hearts.Length;i++) {
-            if(i<_currentHealthBar)
-                hearts[i].sprite = aliveHeart;
-            else
-                hearts[i].sprite = deadHeart;
-
-            if(i<_healthBar)
-                hearts[i].enabled = true;
-            else
-                hearts[i].enabled = false;
-        }
+        minusHeart();
 
         horizontal = Input.GetAxisRaw("Horizontal");
 
@@ -113,6 +104,20 @@ public class MainCharacter : MonoBehaviour
             StartCoroutine(Attacking());
 
         Flip();
+    }
+
+    private void minusHeart() {
+        for(int i=0;i<hearts.Length;i++) {
+            if(i<_currentHealthBar)
+                hearts[i].sprite = aliveHeart;
+            else
+                hearts[i].sprite = deadHeart;
+
+            if(i<_healthBar)
+                hearts[i].enabled = true;
+            else
+                hearts[i].enabled = false;
+        }
     }
 
     private void Jump() {
@@ -145,14 +150,14 @@ public class MainCharacter : MonoBehaviour
 
     private IEnumerator Attacked() {
         _isInvincible = true;
-        //if(_currentHealthBar == 1) {
-            //_isDashing = true;
-            //hearts[3].sprite = deadHeart;
-            //HeadHB.color = new Color((float)0.17,(float)0.23,(float)0.415);
-            //State = States.death;
-            //yield return new WaitForSeconds(1.5f);
-            //Time.timeScale = 0;
-        //}
+        if(_currentHealthBar == 1) {
+            _isDashing = true;
+            minusHeart();
+            HeadHB.color = new Color((float)0.17,(float)0.23,(float)0.415);
+            State = States.death;
+            yield return new WaitForSeconds(1.5f);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
         _currentHealthBar -= 1;
         sprite.color = new Color(1,1,1,(float)0.5);
         yield return new WaitForSeconds(0.2f);

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BossFight : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class BossFight : MonoBehaviour
     [SerializeField] private GameObject clawFall;
     [SerializeField] private GameObject bossWallOne;
     [SerializeField] private GameObject bossWallTwo;
+    [SerializeField] private GameObject _dieExplosion;
     private GameObject Player;
 
     private bool activated = false;
@@ -26,15 +28,6 @@ public class BossFight : MonoBehaviour
         bossWallTwo.SetActive(true);
         activated = true;
         StartCoroutine(StartFight());
-    }
-
-    private IEnumerator Test() {
-        yield return new WaitForSeconds(3.5f);
-        dash.SetActive(true);
-        yield return new WaitForSeconds(2f);
-        dash.SetActive(false);
-        yield return new WaitForSeconds(1f);
-        dash.SetActive(true);
     }
 
     private IEnumerator StartFight() {
@@ -144,5 +137,10 @@ public class BossFight : MonoBehaviour
         yield return new WaitForSeconds(9f);
         clawShoot.SetActive(false);
         clawFall.SetActive(false);
+        GameObject particleGO = Instantiate(_dieExplosion, GameObject.FindGameObjectWithTag("CopperClaw").transform.position, Quaternion.identity);
+        particleGO.SetActive(true);
+        Destroy(GameObject.FindGameObjectWithTag("CopperClaw"));
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene(4);
     }
 }
