@@ -252,6 +252,10 @@ PrefabInstance:
       propertyPath: hearts.Array.data[3]
       value: 
       objectReference: {fileID: 59813471}
+    - target: {fileID: 2831067133062413838, guid: 534055fedaf21fe41b3310855077b026, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 534055fedaf21fe41b3310855077b026, type: 3}
 --- !u!1 &58077916
